@@ -7,7 +7,7 @@ from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import jwt, JWTError
 from passlib.context import CryptContext
-from pyd import User, Token, TokenData 
+from pyd import User, Token, TokenData
 
 app = FastAPI()
 
@@ -26,7 +26,6 @@ def verify_password(plain_password, hashed_password):
 def get_password_hash(password):
     return pwd_contenxt.hash(password)
 
-   
 
 def authenticate_user(fake_db, username: str, password: str):
     user = get_user(fake_db, username)
@@ -35,6 +34,7 @@ def authenticate_user(fake_db, username: str, password: str):
     if not verify_password(password, user.hashed_password):
         return False
     return user
+
 
 def create_access_token(data: dict, expires_delta: int = None):
     to_encode = data.copy()
@@ -45,6 +45,7 @@ def create_access_token(data: dict, expires_delta: int = None):
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
+
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
@@ -88,7 +89,8 @@ async def login_for_access_token(
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token_expires = datetime.timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = datetime.timedelta(
+        minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
@@ -126,8 +128,10 @@ def register(user: User):
     user.password = get_password_hash(user.password)
 
     if dbs_y11.add_user(user):
-        return JSONResponse(status_code=status.HTTP_200_OK, content="Регистрация успешна")
-    return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content="Что-то пошло не так")
+        return JSONResponse(status_code=status.HTTP_200_OK,
+                            content="Регистрация успешна")
+    return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST,
+                        content="Что-то пошло не так")
 
 
 if __name__ == '__main__':
