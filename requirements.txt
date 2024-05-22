@@ -1,0 +1,7 @@
+PyQt6
+requests
+pydantic
+fastapi
+python-jose[cryptography]
+passlib
+uvicorn

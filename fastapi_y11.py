@@ -135,6 +135,5 @@ def register(user: User):
 
 
 if __name__ == '__main__':
-    # Запуск веб-сервера
-    # uvicorn main:app --reload
+    dbs_y11.create_table()
     uvicorn.run("fastapi_y11:app")
