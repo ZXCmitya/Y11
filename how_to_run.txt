@@ -1,0 +1,4 @@
+1. open the project
+2. install all the packages
+3. run main.py from the "back" folder
+4. run main.py from the "front" folder
