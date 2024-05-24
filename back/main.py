@@ -7,9 +7,7 @@ from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import jwt, JWTError
 from passlib.context import CryptContext
-
-from pydantic import BaseModel
-from schemas import User, UserAuth
+from schemas import User, UserAuth, Token, TokenData
 import db
 
 print(datetime.utcnow())
@@ -24,15 +22,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-
-
-class TokenData(BaseModel):
-    username: str | None = None
 
 
 def verify_password(plain_password, hashed_password):
@@ -109,13 +98,15 @@ def add_offset(datetime_str: str) -> str:  # 24.05.24 13:16:09 - example input a
     tz_minutes = int(tz / 3600 % 1 * 60)
     datetime_object = (datetime.strptime(datetime_str, '%d.%m.%y %H:%M:%S')
                        + timedelta(hours=tz_hours, minutes=tz_minutes))  # формат datetime для добавления offset'а
-    res = datetime_to_str(datetime_object)  # перевод в строчный формат с offset
+    # перевод в строчный формат с offset
+    res = datetime_to_str(datetime_object)
     return res
 
 
 @app.post("/token")
 def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()) -> Token:
-    user = authenticate_user(UserAuth(username=form_data.username, password=form_data.password))
+    user = authenticate_user(
+        UserAuth(username=form_data.username, password=form_data.password))
 
     if not user:
         raise HTTPException(

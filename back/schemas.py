@@ -21,3 +21,12 @@ class UserPosts(BaseModel):
     username: str
     posts: str
     timestamps: str
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    username: str | None = None
