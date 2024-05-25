@@ -1,8 +1,7 @@
+from datetime import datetime
 import sqlite3
 from typing import List
 from schemas import User, UserPosts
-
-from pydantic import BaseModel
 
 
 # uvicorn main:app --reload
@@ -29,8 +28,9 @@ def create_posts_table():
         CREATE TABLE IF NOT EXISTS "Posts" (
             "id" INTEGER NOT NULL UNIQUE,
             "username" TEXT,
-            "posts" TEXT,
-            "timestamps" TEXT,
+            "content" TEXT,
+            "time_of_upload" TEXT,
+            "id_of_user" INTEGER,
             PRIMARY KEY("id" AUTOINCREMENT)
         );
     """)
@@ -137,16 +137,26 @@ def delete_user(id: int) -> bool:
     return True
 
 
-# def add_post(username: str, posts: str, timestamps: str) -> bool:
-#     connect = sqlite3.connect("data.db")
-#     cursor = connect.execute("""SELECT * FROM "Posts" WHERE username = ?""", [username])
-#     row = cursor.fetchone
-#     if row is None:
-#         connect.execute("""INSERT INTO "Posts" (username, posts, timestamps) VALUES (?, ?, ?, ?)""",
-#                         [username, posts, timestamps])
-#     else:  ...
-#
-# please make add_post functions. make sure that they consist of only one CRUD operation, not like above :/
+def add_post(post: str, user: User) -> bool:
+    connect = sqlite3.connect("data.db")
+    cursor_time = datetime.now()
+
+    connect.execute("""INSERT INTO "Posts" (username, content, time_of_upload, id_of_user) VALUES (?, ?, ?, ?);""", [user.username, post, cursor_time.strftime("%Y-%m-%d %H:%M"), user.id])
+    connect.commit()
+
+    connect.close()
+    return True
+
+
+def get_all_posts():
+    connect = sqlite3.connect("data.db")
+
+    cursor = connect.execute("""SELECT * FROM "Posts"; """)
+    rows = cursor.fetchall()
+    res = []
+    for row in rows:
+        res.append(UserPosts(**{key: value for key, value in zip(UserPosts.model_fields.keys(), row)}))
+    return res
 
 
 if __name__ == '__main__':

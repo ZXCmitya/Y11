@@ -19,8 +19,9 @@ class UserAuth(BaseModel):
 class UserPosts(BaseModel):
     id: Optional[int] = None
     username: str
-    posts: str
-    timestamps: str
+    content: str
+    time_of_upload: str
+    id_of_user: int
 
 
 class Token(BaseModel):
@@ -30,3 +31,4 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: str | None = None
+

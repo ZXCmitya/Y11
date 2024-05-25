@@ -7,8 +7,9 @@ from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import jwt, JWTError
 from passlib.context import CryptContext
-from schemas import User, UserAuth, Token, TokenData
+from schemas import User, UserAuth, Token, TokenData, UserPosts
 import db
+
 
 print(datetime.utcnow())
 print(datetime.now().astimezone().tzinfo)
@@ -152,11 +153,18 @@ def register(user: User):
     return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content="Что-то пошло не так")
 
 
-@app.post("/create_user")
-def create_user(user: User) -> int:
-    if db.add_user(user):
-        return 200
-    return 400
+@app.post("/create_post")
+def create_post(post: str, current_user: User = Depends(get_current_user)):
+    if db.add_post(post, current_user):
+        return JSONResponse(status_code=status.HTTP_200_OK, content="Пост создан успешно")
+    return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content="Произошла ошибка")
+
+
+@app.get("/get_all_posts")
+def get_all_posts() -> List[UserPosts]:
+    return db.get_all_posts()
+
+
 
 
 @app.put("/change_user/{id}")
