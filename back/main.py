@@ -165,8 +165,6 @@ def get_all_posts() -> List[UserPosts]:
     return db.get_all_posts()
 
 
-
-
 @app.put("/change_user/{id}")
 def change_user(id: int, user: User) -> int:
     if db.change_user(id, user):

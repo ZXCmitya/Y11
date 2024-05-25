@@ -54,7 +54,8 @@ def get_all_users() -> List[User]:
     rows = cursor.fetchall()
     res = []
     for row in rows:
-        res.append(User(**{key: value for key, value in zip(User.model_fields.keys(), row)}))
+        res.append(
+            User(**{key: value for key, value in zip(User.model_fields.keys(), row)}))
     return res
 
 
@@ -65,14 +66,16 @@ def get_all_posts() -> List[UserPosts]:
     rows = cursor.fetchall()
     res = []
     for row in rows:
-        res.append(UserPosts(**{key: value for key, value in zip(UserPosts.model_fields.keys(), row)}))
+        res.append(UserPosts(
+            **{key: value for key, value in zip(UserPosts.model_fields.keys(), row)}))
     return res
 
 
 def get_user_by_username(username: str) -> User | bool:
     connect = sqlite3.connect("data.db")
 
-    cursor = connect.execute("""SELECT * FROM "Users" WHERE "username" = ?;""", [username])
+    cursor = connect.execute(
+        """SELECT * FROM "Users" WHERE "username" = ?;""", [username])
     row = cursor.fetchone()
     if row is None:
         return False
@@ -82,7 +85,8 @@ def get_user_by_username(username: str) -> User | bool:
 def get_post_table_by_username(username: str) -> UserPosts | bool:
     connect = sqlite3.connect("data.db")
 
-    cursor = connect.execute("""SELECT * FROM "Posts" WHERE "username" = ?;""", [username])
+    cursor = connect.execute(
+        """SELECT * FROM "Posts" WHERE "username" = ?;""", [username])
     row = cursor.fetchone()
     if row is None:
         return False
@@ -92,7 +96,8 @@ def get_post_table_by_username(username: str) -> UserPosts | bool:
 def get_posts_by_username(username: str) -> str | bool:
     connect = sqlite3.connect("data.db")
 
-    cursor = connect.execute("""SELECT posts FROM "Posts" WHERE "username" = ?;""", [username])
+    cursor = connect.execute(
+        """SELECT posts FROM "Posts" WHERE "username" = ?;""", [username])
     posts = cursor.fetchone()
     if posts is None:
         return False
@@ -123,7 +128,8 @@ def change_user(id: int, user: User) -> bool:
 
 def change_user_password(id: int, password: str) -> bool:
     connect = sqlite3.connect("data.db")
-    connect.execute("""UPDATE "Users" SET password = ? WHERE id = ?;""", [password, id])
+    connect.execute(
+        """UPDATE "Users" SET password = ? WHERE id = ?;""", [password, id])
     connect.commit()
     connect.close()
     return True
@@ -141,7 +147,8 @@ def add_post(post: str, user: User) -> bool:
     connect = sqlite3.connect("data.db")
     cursor_time = datetime.now()
 
-    connect.execute("""INSERT INTO "Posts" (username, content, time_of_upload, id_of_user) VALUES (?, ?, ?, ?);""", [user.username, post, cursor_time.strftime("%Y-%m-%d %H:%M"), user.id])
+    connect.execute("""INSERT INTO "Posts" (username, content, time_of_upload, id_of_user) VALUES (?, ?, ?, ?);""", [
+                    user.username, post, cursor_time.strftime("%Y-%m-%d %H:%M"), user.id])
     connect.commit()
 
     connect.close()
@@ -155,7 +162,8 @@ def get_all_posts():
     rows = cursor.fetchall()
     res = []
     for row in rows:
-        res.append(UserPosts(**{key: value for key, value in zip(UserPosts.model_fields.keys(), row)}))
+        res.append(UserPosts(
+            **{key: value for key, value in zip(UserPosts.model_fields.keys(), row)}))
     return res
 
 
@@ -174,5 +182,3 @@ if __name__ == '__main__':
     # user = User(name="Puchkov Dmitry", username="nilbog", password="sddfsdvs", email="gedgzzz@gg.com")
     # change_user(1, user)
     # print(get_all_users())
-
-
