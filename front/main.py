@@ -3,9 +3,9 @@ from typing import Callable
 
 
 from front import helper
-from front.schemas import User, UserAuth
+from front.schemas import User, UserAuth, UserPosts
 
-import mainUi, itemUi
+import mainUi, itemUi, itemUi_UserPost
 from PyQt5.QtWidgets import QWidget, QApplication, QListWidgetItem, QLineEdit
 
 
@@ -31,6 +31,18 @@ class Item(QWidget, itemUi.Ui_Form):
             print(":(")
 
 
+class Item2(QWidget, itemUi_UserPost.Ui_Form):
+    def __init__(self, post: UserPosts, parent=None, flags=...):
+        QWidget.__init__(self, parent)
+        self.setupUi(self)
+
+        self.post = post
+
+        self.label_post_username.setText(str(self.post.username))
+        self.label_post_content.setText(str(self.post.content))
+        self.label_post_time.setText(str(self.post.time_of_upload))
+
+
 class MainApp(QWidget, mainUi.Ui_Form):
     def __init__(self, parent=None, flags=...):
         QWidget.__init__(self, parent)
@@ -41,6 +53,8 @@ class MainApp(QWidget, mainUi.Ui_Form):
         self.line_reg_password.setEchoMode(QLineEdit.Password)
 
         self.btn_fill.clicked.connect(self.fill_users)
+
+        self.btn_fill_posts.clicked.connect(self.fill_posts)
 
         self.btn_login.clicked.connect(self.login_handler)
 
@@ -55,6 +69,8 @@ class MainApp(QWidget, mainUi.Ui_Form):
         self.btn_to_info.clicked.connect(self.to_info)
 
         self.btn_to_post.clicked.connect(self.to_post)
+
+        self.btn_send_post.clicked.connect(self.create_post)
 
         try:
             helper.get_current_user()
@@ -134,7 +150,7 @@ class MainApp(QWidget, mainUi.Ui_Form):
             self.label_errors_auth.setText("Неверная авторизация")
 
     def fill_users(self):
-        users = helper.get_all_users() # Получение данных
+        users = helper.get_all_users()  # Получение данных
 
         self.list_users.clear()
 
@@ -147,6 +163,21 @@ class MainApp(QWidget, mainUi.Ui_Form):
             userItem.setSizeHint(row.minimumSizeHint())
 
             self.list_users.setItemWidget(userItem, row)
+
+    def fill_posts(self):
+        posts = helper.get_all_posts()  # Получение данных
+
+        self.list_posts.clear()
+
+        for post in posts:
+
+            postItem = QListWidgetItem(self.list_posts)
+            self.list_posts.addItem(postItem)
+
+            row = Item2(post)
+            postItem.setSizeHint(row.minimumSizeHint())
+
+            self.list_posts.setItemWidget(postItem, row)
 
     def delete_user(self, id: int) -> bool:
         res = helper.remove_user(id)
@@ -161,9 +192,20 @@ class MainApp(QWidget, mainUi.Ui_Form):
                     return True
         return False
 
+    def create_post(self):
+        content = self.text_post.toPlainText()
+        helper.create_post(post=content, user=helper.get_current_user())
+        self.text_post.setPlainText("")
+
+
+file_path = "styles/dark-blue.txt"
+with open(file_path, "r") as file:
+    theme = file.read()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    app.setStyleSheet(theme)
     w = MainApp()
     # pyuic5 -x mainApp.ui -o mainUi.py
     w.show()

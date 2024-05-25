@@ -13,14 +13,11 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">background-color: gray;</string>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="login_page">
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -369,7 +366,7 @@
           <bool>false</bool>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
@@ -500,8 +497,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>836</width>
-                    <height>275</height>
+                    <width>88</width>
+                    <height>88</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -622,21 +619,14 @@ background-color: #EEEEEE</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_8">
            <item>
-            <widget class="QScrollArea" name="scrollArea">
-             <property name="widgetResizable">
-              <bool>true</bool>
+            <widget class="QPushButton" name="btn_fill_posts">
+             <property name="text">
+              <string>Заполнить список</string>
              </property>
-             <widget class="QWidget" name="scrollAreaWidgetContents">
-              <property name="geometry">
-               <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>854</width>
-                <height>529</height>
-               </rect>
-              </property>
-             </widget>
             </widget>
+           </item>
+           <item>
+            <widget class="QListWidget" name="list_posts"/>
            </item>
           </layout>
          </widget>

@@ -10,10 +10,10 @@ from passlib.context import CryptContext
 from schemas import User, UserAuth, Token, TokenData, UserPosts
 import db
 
-
-print(datetime.utcnow())
-print(datetime.now().astimezone().tzinfo)
-print(datetime.now().astimezone())
+#
+# print(datetime.utcnow())
+# print(datetime.now().astimezone().tzinfo)
+# print(datetime.now().astimezone())
 
 app = FastAPI()
 
@@ -76,17 +76,6 @@ def get_current_user(token: str = Depends(oauth2_scheme)) -> dict:
     return user
 
 
-def token_is_working(token: str = Depends(oauth2_scheme)) -> bool:
-    isValid = True
-
-    try:
-        jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-    except jwt.ExpiredSignatureError:
-        isValid = False
-
-    return isValid
-
-
 def datetime_to_str(datetime_object: datetime) -> str:
     datetime_str = datetime.strftime(datetime_object, '%d.%m.%y %H:%M:%S')
     return datetime_str
@@ -123,11 +112,6 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()) -> 
 
     return Token(access_token=access_token, token_type="bearer")
 
-
-# @app.post("/logout")
-# def user_logout(authorization: str = Header(None)):
-#     oauth2_scheme.revoke_token(authorization)
-#     return {"message": "Token revoked"}
 
 @app.get("/users/me/", response_model=User)
 def read_users_me(current_user: User = Depends(get_current_user)):

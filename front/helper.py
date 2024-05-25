@@ -1,7 +1,7 @@
 from typing import List
 
 from front.logic import set_session_token, get_session_token
-from front.schemas import User, UserAuth
+from front.schemas import User, UserAuth, UserPosts
 import requests
 
 apilink = "http://127.0.0.1:8000"
@@ -66,3 +66,21 @@ def remove_user(id: int) -> bool:
     res = requests.delete(apilink + f"/delete_user/{id}", headers=header)
 
     return res.status_code == 200
+
+
+def create_post(post: str, user: User) -> bool:
+    header = {
+        "Authorization": f"Bearer {get_session_token()}"
+    }
+    post = {"post": post}
+
+    res = requests.post(apilink + "/create_post", headers=header, params=post, json=user.json())
+
+    return res.status_code == 200
+
+
+def get_all_posts() -> List[UserPosts]:
+
+    res = requests.get(apilink + "/get_all_posts")
+
+    return [UserPosts(**post) for post in res.json()]

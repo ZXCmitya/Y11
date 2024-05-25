@@ -5,8 +5,8 @@ from datetime import timedelta, datetime, timezone
 import time
 
 tz = -time.timezone
-print(tz / 60)
-print(f'Часы: {tz // 3600}, Минуты: {int(tz / 3600 % 1 * 60)}')
+# print(tz / 60)
+# print(f'Часы: {tz // 3600}, Минуты: {int(tz / 3600 % 1 * 60)}')
 tz_hours = tz // 3600
 tz_minutes = int(tz / 3600 % 1 * 60)
 
@@ -17,16 +17,16 @@ utc_datetime = datetime.now(timezone.utc)
 # print(utc_datetime + timedelta(hours=tz_hours, minutes=tz_minutes))
 
 datetime_str = datetime.strftime(utc_datetime, '%d.%m.%y %H:%M:%S')
-print(datetime_str)  # в бд по utc
+# print(datetime_str)  # в бд по utc
 
 datetime_object = (datetime.strptime(datetime_str, '%d.%m.%y %H:%M:%S')
                    + timedelta(hours=tz_hours, minutes=tz_minutes))  # формат datetime для добавления offset'а
 
-print(datetime_object)
+# print(datetime_object)
 
 datetime_str = datetime.strftime(datetime_object, '%d.%m.%y %H:%M:%S')  # выводим в карточку
 
-print(datetime_str)
+# print(datetime_str)
 # datetime_str = local_iso_str
 #
 # datetime_object = datetime.strptime(datetime_str, '%d.%m.%y %H:%M:%S')

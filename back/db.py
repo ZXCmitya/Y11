@@ -155,7 +155,7 @@ def add_post(post: str, user: User) -> bool:
     return True
 
 
-def get_all_posts():
+def get_all_posts() -> list:
     connect = sqlite3.connect("data.db")
 
     cursor = connect.execute("""SELECT * FROM "Posts"; """)

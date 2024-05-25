@@ -14,3 +14,12 @@ class User(BaseModel):
 class UserAuth(BaseModel):
     username: Optional[str]
     password: Optional[str]
+
+
+class UserPosts(BaseModel):
+    id: Optional[int] = None
+    username: str
+    content: str
+    time_of_upload: str
+    id_of_user: int
+
