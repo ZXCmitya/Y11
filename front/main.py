@@ -48,6 +48,8 @@ class MainApp(QWidget, mainUi.Ui_Form):
         QWidget.__init__(self, parent)
         self.setupUi(self)
 
+        self.setGeometry(512, 300, 800, 500)
+
         self.line_password.setEchoMode(QLineEdit.Password)
 
         self.line_reg_password.setEchoMode(QLineEdit.Password)
@@ -72,6 +74,11 @@ class MainApp(QWidget, mainUi.Ui_Form):
 
         self.btn_send_post.clicked.connect(self.create_post)
 
+        self.btn_to_settings.clicked.connect(self.to_settings)
+
+        self.btn_to_back.clicked.connect(self.to_main)
+
+
         try:
             helper.get_current_user()
             self.stackedWidget.setCurrentIndex(2)
@@ -82,6 +89,11 @@ class MainApp(QWidget, mainUi.Ui_Form):
             self.label_email_info.setText(user_json["email"])
         except:
             self.stackedWidget.setCurrentIndex(0)
+    def to_main(self):
+        self.stackedWidget_Settings.setCurrentIndex(0)
+
+    def to_settings(self):
+        self.stackedWidget_Settings.setCurrentIndex(1)
 
     def to_info(self):
         self.stackedWidget_2.setCurrentIndex(0)
@@ -200,8 +212,8 @@ class MainApp(QWidget, mainUi.Ui_Form):
         self.text_post.setPlainText("")
 
 
-file_path = "styles/dark-blue.txt"
-with open(file_path, "r") as file:
+theme_palette = "dark-blue"
+with open(f"styles/{theme_palette}.txt", "r") as file:
     theme = file.read()
 
 
