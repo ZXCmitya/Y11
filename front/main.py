@@ -94,6 +94,7 @@ class MainApp(QWidget, mainUi.Ui_Form):
 
     def to_registration(self):
         self.stackedWidget.setCurrentIndex(1)
+        print(self.stackedWidget.currentIndex())
 
     def register_handler(self):
         name = self.line_reg_user.text()
@@ -101,8 +102,9 @@ class MainApp(QWidget, mainUi.Ui_Form):
         user_email = self.line_reg_email.text()
         password = self.line_reg_password.text()
         mixed = name + username + user_email + password
+        mixed_wo_name = username + user_email + password
 
-        if len(name) == 0 or len(username) == 0 or len(user_email) == 0 or len(password) == 0 or ' ' in mixed:
+        if len(name) == 0 or len(username) == 0 or len(user_email) == 0 or len(password) == 0 or ' ' in mixed_wo_name:
             self.label_errors_reg.setText("Введите данные во все поля")
         elif len(name) <= 2 or len(username) <= 2 or len(user_email) <= 2:
             self.label_errors_reg.setText("Длина данных слишком мала. \nПопробуйте еще раз")
