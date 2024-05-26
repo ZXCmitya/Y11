@@ -296,9 +296,7 @@ class Ui_Form(object):
         spacerItem14 = QtWidgets.QSpacerItem(20, 5, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
         self.verticalLayout_15.addItem(spacerItem14)
         self.frame = QtWidgets.QFrame(self.page_5)
-        self.frame.setStyleSheet("QRadioButton {\n"
-"color: green;\n"
-"}")
+        self.frame.setStyleSheet("")
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
@@ -319,14 +317,23 @@ class Ui_Form(object):
         self.radio__dark_blue.setAutoRepeat(False)
         self.radio__dark_blue.setObjectName("radio__dark_blue")
         self.verticalLayout_16.addWidget(self.radio__dark_blue)
+        self.radio__dark_orange = QtWidgets.QRadioButton(self.frame)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.radio__dark_orange.setFont(font)
+        self.radio__dark_orange.setObjectName("radio__dark_orange")
+        self.verticalLayout_16.addWidget(self.radio__dark_orange)
         self.verticalLayout_15.addWidget(self.frame)
+        self.btn_save_theme = QtWidgets.QPushButton(self.page_5)
+        self.btn_save_theme.setObjectName("btn_save_theme")
+        self.verticalLayout_15.addWidget(self.btn_save_theme)
         spacerItem15 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_15.addItem(spacerItem15)
         self.stackedWidget_Settings.addWidget(self.page_5)
         self.verticalLayout.addWidget(self.stackedWidget_Settings)
 
         self.retranslateUi(Form)
-        self.stackedWidget_Settings.setCurrentIndex(0)
+        self.stackedWidget_Settings.setCurrentIndex(1)
         self.stackedWidget.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(2)
         self.stackedWidget_2.setCurrentIndex(1)
@@ -370,8 +377,10 @@ class Ui_Form(object):
         self.btn_to_back.setText(_translate("Form", "Обратно"))
         self.label_9.setText(_translate("Form", "Настройки"))
         self.label_10.setText(_translate("Form", "Темы (стилизация):"))
-        self.radio__no_theme.setText(_translate("Form", "Без темы"))
-        self.radio__dark_blue.setText(_translate("Form", "dark-blue"))
+        self.radio__no_theme.setText(_translate("Form", "Без стилей"))
+        self.radio__dark_blue.setText(_translate("Form", "Темно-синий"))
+        self.radio__dark_orange.setText(_translate("Form", "Темно-оранжевый"))
+        self.btn_save_theme.setText(_translate("Form", "Сохранить изменения"))
 
 
 if __name__ == "__main__":

@@ -1,6 +1,7 @@
 import sys
 from typing import Callable
 
+import logic
 
 from front import helper
 from front.schemas import User, UserAuth, UserPosts
@@ -78,6 +79,9 @@ class MainApp(QWidget, mainUi.Ui_Form):
 
         self.btn_to_back.clicked.connect(self.to_main)
 
+        self.btn_save_theme.clicked.connect(self.change_theme)  # button for radios
+
+        self.setStyleSheet(logic.get_current_style_css(logic.get_style_name()))
 
         try:
             helper.get_current_user()
@@ -89,6 +93,21 @@ class MainApp(QWidget, mainUi.Ui_Form):
             self.label_email_info.setText(user_json["email"])
         except:
             self.stackedWidget.setCurrentIndex(0)
+
+    def change_theme(self):
+        if self.radio__no_theme.isChecked():
+            logic.set_current_style("no-theme")
+
+        elif self.radio__dark_blue.isChecked():
+            logic.set_current_style("dark-blue")
+
+        elif self.radio__dark_orange.isChecked():
+            logic.set_current_style("dark-orange")
+
+        style_name = logic.get_style_name()
+
+        self.setStyleSheet(logic.get_current_style_css(style_name))
+
     def to_main(self):
         self.stackedWidget_Settings.setCurrentIndex(0)
 
@@ -212,14 +231,12 @@ class MainApp(QWidget, mainUi.Ui_Form):
         self.text_post.setPlainText("")
 
 
-theme_palette = "dark-blue"
-with open(f"styles/{theme_palette}.txt", "r") as file:
-    theme = file.read()
+
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    app.setStyleSheet(theme)
+    # app.setStyleSheet(logic.get_current_style_css(logic.get_style_name()))
     w = MainApp()
     # pyuic5 -x mainApp.ui -o mainUi.py
     w.show()

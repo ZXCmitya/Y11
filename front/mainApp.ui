@@ -17,7 +17,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget_Settings">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page_4">
       <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -723,9 +723,7 @@ background-color: #EEEEEE</string>
        <item>
         <widget class="QFrame" name="frame">
          <property name="styleSheet">
-          <string notr="true">QRadioButton {
-color: green;
-}</string>
+          <string notr="true"/>
          </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -742,7 +740,10 @@ color: green;
              </font>
             </property>
             <property name="text">
-             <string>Без темы</string>
+             <string>Без стилей</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -757,17 +758,36 @@ color: green;
              </font>
             </property>
             <property name="text">
-             <string>dark-blue</string>
+             <string>Темно-синий</string>
             </property>
             <property name="checked">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
             <property name="autoRepeat">
              <bool>false</bool>
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QRadioButton" name="radio__dark_orange">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Темно-оранжевый</string>
+            </property>
+           </widget>
+          </item>
          </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_save_theme">
+         <property name="text">
+          <string>Сохранить изменения</string>
+         </property>
         </widget>
        </item>
        <item>
