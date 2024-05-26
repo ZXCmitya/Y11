@@ -1,5 +1,5 @@
 from datetime import timedelta, datetime, timezone
-from typing import Optional, List
+from typing import List
 import time
 import uvicorn
 from fastapi import FastAPI, status, HTTPException, Depends
@@ -94,7 +94,8 @@ def add_offset(datetime_str: str) -> str:  # 24.05.24 13:16:09 - example input a
 
 
 @app.post("/token")
-def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()) -> Token:
+def login_for_access_token(
+        form_data: OAuth2PasswordRequestForm = Depends()) -> Token:
     user = authenticate_user(
         UserAuth(username=form_data.username, password=form_data.password))
 
@@ -133,15 +134,19 @@ def register(user: User):
     user.password = get_password_hash(user.password)
 
     if db.add_user(user):
-        return JSONResponse(status_code=status.HTTP_200_OK, content="Регистрация успешна")
-    return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content="Что-то пошло не так")
+        return JSONResponse(status_code=status.HTTP_200_OK,
+                            content="Регистрация успешна")
+    return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST,
+                        content="Что-то пошло не так")
 
 
 @app.post("/create_post")
 def create_post(post: str, current_user: User = Depends(get_current_user)):
     if db.add_post(post, current_user):
-        return JSONResponse(status_code=status.HTTP_200_OK, content="Пост создан успешно")
-    return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content="Произошла ошибка")
+        return JSONResponse(status_code=status.HTTP_200_OK,
+                            content="Пост создан успешно")
+    return JSONResponse(
+        status_code=status.HTTP_400_BAD_REQUEST, content="Произошла ошибка")
 
 
 @app.get("/get_all_posts")
@@ -157,17 +162,22 @@ def change_user(id: int, user: User) -> int:
 
 
 @app.patch("/change_password/{id}")
-def change_password(id: int, userPass: UserAuth):
-    if db.change_user_password(id, userPass.password):
-        return 200
-    return 400
+def change_password(user_pass: str,
+                    current_user: User = Depends(get_current_user)):
+    if db.change_password(pwd_context.hash(user_pass), current_user.id):
+        return JSONResponse(status_code=status.HTTP_200_OK,
+                            content="Пароль изменен")
+    return JSONResponse(
+        status_code=status.HTTP_400_BAD_REQUEST, content="Произошла ошибка")
 
 
 @app.delete("/delete_user/{id}")
 def delete_user(id: int, current_user: User = Depends(get_current_user)):
     if db.delete_user(id):
-        return JSONResponse(status_code=status.HTTP_200_OK, content="Пользователь удалён успешно")
-    return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content="Произошла ошибка")
+        return JSONResponse(status_code=status.HTTP_200_OK,
+                            content="Пользователь удалён успешно")
+    return JSONResponse(
+        status_code=status.HTTP_400_BAD_REQUEST, content="Произошла ошибка")
 
 
 # Общий вид запроса

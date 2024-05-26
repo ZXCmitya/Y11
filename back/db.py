@@ -79,7 +79,8 @@ def get_user_by_username(username: str) -> User | bool:
     row = cursor.fetchone()
     if row is None:
         return False
-    return User(**{key: value for key, value in zip(User.model_fields.keys(), row)})
+    return User(
+        **{key: value for key, value in zip(User.model_fields.keys(), row)})
 
 
 def get_post_table_by_username(username: str) -> UserPosts | bool:
@@ -90,7 +91,8 @@ def get_post_table_by_username(username: str) -> UserPosts | bool:
     row = cursor.fetchone()
     if row is None:
         return False
-    return UserPosts(**{key: value for key, value in zip(UserPosts.model_fields.keys(), row)})
+    return UserPosts(
+        **{key: value for key, value in zip(UserPosts.model_fields.keys(), row)})
 
 
 def get_posts_by_username(username: str) -> str | bool:
@@ -111,7 +113,8 @@ def get_user_by_id(id: int) -> User | bool:
     row = cursor.fetchone()
     if row is None:
         return False
-    return User(**{key: value for key, value in zip(User.model_fields.keys(), row)})
+    return User(
+        **{key: value for key, value in zip(User.model_fields.keys(), row)})
 
 
 def change_user(id: int, user: User) -> bool:
@@ -126,18 +129,18 @@ def change_user(id: int, user: User) -> bool:
     return True
 
 
-def change_user_password(id: int, password: str) -> bool:
+def delete_user(id: int) -> bool:
     connect = sqlite3.connect("data.db")
-    connect.execute(
-        """UPDATE "Users" SET password = ? WHERE id = ?;""", [password, id])
+    connect.execute("""DELETE FROM "Users" WHERE id = ?;""", [id])
     connect.commit()
     connect.close()
     return True
 
 
-def delete_user(id: int) -> bool:
+def change_password(user_pass: str, id_of_current_user: int) -> bool:
     connect = sqlite3.connect("data.db")
-    connect.execute("""DELETE FROM "Users" WHERE id = ?;""", [id])
+    connect.execute("""UPDATE "Users" SET password = ? WHERE id = ?;""", [
+                    user_pass, id_of_current_user])
     connect.commit()
     connect.close()
     return True
@@ -164,6 +167,8 @@ def get_all_posts() -> list:
     for row in rows:
         res.append(UserPosts(
             **{key: value for key, value in zip(UserPosts.model_fields.keys(), row)}))
+
+    res.sort(key=lambda x: x.id, reverse=True)
     return res
 
 
@@ -174,6 +179,7 @@ if __name__ == '__main__':
     # add_user(User(name="Aleksander Makedonsky", username="podbead", password="gdvrvba", email="fvccc@gg.com"))
     # add_user(User(name="Mikhail Romanov", username="nerurik", password="vbdrtx", email="dinasty@gg.com"))
     print(get_all_users())
+    # print(get_all_posts())
 
     # user = get_user_by_id(3)
     # if user:
