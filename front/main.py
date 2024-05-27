@@ -95,6 +95,7 @@ class MainApp(QWidget, mainUi.Ui_Form):
             self.label_name_info.setText(user_json["name"])
             self.label_username_info.setText(user_json["username"])
             self.label_email_info.setText(user_json["email"])
+            self.label_id_info.setText(user_json["id"])
         except:
             self.stackedWidget.setCurrentIndex(0)
 
@@ -181,11 +182,12 @@ class MainApp(QWidget, mainUi.Ui_Form):
         res = helper.authorize(userauth)
 
         if res:
-            user_json = helper.get_current_user_json()
             self.stackedWidget.setCurrentIndex(2)
+            user_json = helper.get_current_user_json()
             self.label_name_info.setText(user_json["name"])
             self.label_username_info.setText(user_json["username"])
             self.label_email_info.setText(user_json["email"])
+            self.label_id_info.setText(str(user_json["id"]))
         else:
             print(":( Неверная авторизация")
             self.label_errors_auth.setText("Неверная авторизация")
