@@ -1,6 +1,8 @@
 import sys
 from typing import Callable
 
+from passlib.context import CryptContext
+
 import logic
 
 from front import helper
@@ -112,9 +114,13 @@ class MainApp(QWidget, mainUi.Ui_Form):
         self.stackedWidget.setCurrentIndex(2)
 
     def change_password(self):
+        pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
         old_pass = self.line__old_password.text()
         new_pass = self.line_new_password.text()
-        print(helper.get_current_user())
+        user = helper.get_current_user()
+        helper.change_password(new_pass, user)
+        print(helper.get_current_user().password)
 
     def change_theme(self):
         if self.radio__no_theme.isChecked():
@@ -151,7 +157,6 @@ class MainApp(QWidget, mainUi.Ui_Form):
 
     def to_registration(self):
         self.stackedWidget.setCurrentIndex(1)
-        print(self.stackedWidget.currentIndex())
 
     def register_handler(self):
         name = self.line_reg_user.text()

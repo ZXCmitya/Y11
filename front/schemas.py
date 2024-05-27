@@ -23,3 +23,11 @@ class UserPosts(BaseModel):
     time_of_upload: str
     id_of_user: int
 
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    username: str | None = None

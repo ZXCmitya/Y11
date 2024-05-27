@@ -42,7 +42,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>2</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="login_page">
           <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -546,8 +546,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>611</width>
-                        <height>168</height>
+                        <width>98</width>
+                        <height>88</height>
                        </rect>
                       </property>
                       <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -827,6 +827,13 @@
             <widget class="QPushButton" name="btn_confirm_pass_change">
              <property name="text">
               <string>Подтвердить изменения</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_change_pass">
+             <property name="text">
+              <string/>
              </property>
             </widget>
            </item>

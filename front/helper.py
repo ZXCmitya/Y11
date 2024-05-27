@@ -91,6 +91,7 @@ def change_password(user_pass: str, current_user: User) -> bool:
     header = {
         "Authorization": f"Bearer {get_session_token()}"
     }
-    res = requests.patch(apilink + f"/change_password/{id}", headers=header, params=user_pass, json=current_user)
+    res = requests.patch(apilink + "/change_password/{id}?user_pass=",
+                         headers=header, params=user_pass, json=current_user.dict())
 
     return res.status_code == 200
