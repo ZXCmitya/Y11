@@ -1,3 +1,7 @@
+front/current_style.txt
+front/note.txt
+front/session_token
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
