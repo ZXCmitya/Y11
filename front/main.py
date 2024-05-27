@@ -83,6 +83,10 @@ class MainApp(QWidget, mainUi.Ui_Form):
 
         self.setStyleSheet(logic.get_current_style_css(logic.get_style_name()))
 
+        self.btn_save_note.clicked.connect(self.save_note)
+
+        self.text_note.setPlainText(logic.get_note())
+
         try:
             helper.get_current_user()
             self.stackedWidget.setCurrentIndex(2)
@@ -107,6 +111,10 @@ class MainApp(QWidget, mainUi.Ui_Form):
         style_name = logic.get_style_name()
 
         self.setStyleSheet(logic.get_current_style_css(style_name))
+
+    def save_note(self):
+        text = self.text_note.toPlainText()
+        logic.save_note(text)
 
     def to_main(self):
         self.stackedWidget_Settings.setCurrentIndex(0)
@@ -229,9 +237,6 @@ class MainApp(QWidget, mainUi.Ui_Form):
         content = self.text_post.toPlainText()
         helper.create_post(post=content, user=helper.get_current_user())
         self.text_post.setPlainText("")
-
-
-
 
 
 if __name__ == '__main__':

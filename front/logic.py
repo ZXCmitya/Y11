@@ -21,3 +21,13 @@ def get_style_name():
 def get_current_style_css(theme: str):
     with open(f"styles/{theme}.txt", "r") as style_file:
         return style_file.read()
+
+
+def save_note(text: str):
+    with open(f"note.txt", "w") as note_file:
+        return note_file.write(text)
+
+
+def get_note() -> str:
+    with open(f"note.txt", "r") as note_file:
+        return note_file.read()
