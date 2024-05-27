@@ -87,6 +87,12 @@ class MainApp(QWidget, mainUi.Ui_Form):
 
         self.text_note.setPlainText(logic.get_note())
 
+        self.btn__from_pass_to_info.clicked.connect(self.to_info_from_pass)
+
+        self.btn_confirm_pass_change.clicked.connect(self.change_password)
+
+        self.btn_to_change_pass.clicked.connect(self.to_change_pass)
+
         try:
             helper.get_current_user()
             self.stackedWidget.setCurrentIndex(2)
@@ -98,6 +104,17 @@ class MainApp(QWidget, mainUi.Ui_Form):
             self.label_id_info.setText(str(user_json["id"]))
         except:
             self.stackedWidget.setCurrentIndex(0)
+
+    def to_change_pass(self):
+        self.stackedWidget.setCurrentIndex(3)
+
+    def to_info_from_pass(self):
+        self.stackedWidget.setCurrentIndex(2)
+
+    def change_password(self):
+        old_pass = self.line__old_password.text()
+        new_pass = self.line_new_password.text()
+        print(helper.get_current_user())
 
     def change_theme(self):
         if self.radio__no_theme.isChecked():

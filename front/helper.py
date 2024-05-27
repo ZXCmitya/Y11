@@ -84,3 +84,13 @@ def get_all_posts() -> List[UserPosts]:
     res = requests.get(apilink + "/get_all_posts")
 
     return [UserPosts(**post) for post in res.json()]
+
+
+def change_password(user_pass: str, current_user: User) -> bool:
+
+    header = {
+        "Authorization": f"Bearer {get_session_token()}"
+    }
+    res = requests.patch(apilink + f"/change_password/{id}", headers=header, params=user_pass, json=current_user)
+
+    return res.status_code == 200
