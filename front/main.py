@@ -95,7 +95,7 @@ class MainApp(QWidget, mainUi.Ui_Form):
             self.label_name_info.setText(user_json["name"])
             self.label_username_info.setText(user_json["username"])
             self.label_email_info.setText(user_json["email"])
-            self.label_id_info.setText(user_json["id"])
+            self.label_id_info.setText(str(user_json["id"]))
         except:
             self.stackedWidget.setCurrentIndex(0)
 
