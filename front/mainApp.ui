@@ -854,6 +854,18 @@
                 </property>
                </widget>
               </item>
+              <item alignment="Qt::AlignRight">
+               <widget class="QPushButton" name="btn_logout_2">
+                <property name="font">
+                 <font>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Выйти с аккаунта</string>
+                </property>
+               </widget>
+              </item>
              </layout>
             </widget>
            </item>

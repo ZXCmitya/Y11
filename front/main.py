@@ -89,6 +89,8 @@ class MainApp(QWidget, mainUi.Ui_Form):
 
         self.btn_logout.clicked.connect(self.to_auth)
 
+        self.btn_logout_2.clicked.connect(self.to_auth)
+
         self.btn_send_post.clicked.connect(self.create_post)
 
         self.btn_to_settings.clicked.connect(self.to_settings)
@@ -128,16 +130,21 @@ class MainApp(QWidget, mainUi.Ui_Form):
         self.stackedWidget.setCurrentIndex(2)
 
     def change_password(self):
-        pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
+        user = helper.get_current_user()
+        name, username, email = user.name, user.username, user.email
         old_pass = self.line__old_password.text()
         new_pass = self.line_new_password.text()
-        userauth = UserAuth(username=helper.get_current_user().username, password=old_pass)
+        userauth = UserAuth(username=user.username, password=old_pass)
         res = helper.authorize(userauth)
         if res:
-            user = helper.get_current_user()
-            helper.change_password(new_pass, user)
+            # helper.change_password(new_pass, user)  # doesn't work
+            helper.remove_user(user.id)
+            helper.register_user(User(name=name, username=username, password=new_pass, email=email))
+            helper.authorize(UserAuth(username=username, password=new_pass))
             print(helper.get_current_user().password)
+
+            self.line__old_password.setText("")
+            self.line_new_password.setText("")
         else:
             print("Произошла ошибка")
 
@@ -173,6 +180,9 @@ class MainApp(QWidget, mainUi.Ui_Form):
         self.list_users.clear()
         self.list_posts.clear()
         self.text_post.setPlainText("")
+
+        self.line__old_password.setText("")
+        self.line_new_password.setText("")
 
     def to_registration(self):
         self.stackedWidget.setCurrentIndex(1)
@@ -296,12 +306,13 @@ class MainApp(QWidget, mainUi.Ui_Form):
                     return True
         return False
 
-
-
     def create_post(self):
         content = self.text_post.toPlainText()
-        helper.create_post(post=content, user=helper.get_current_user())
-        self.text_post.setPlainText("")
+        if len(content) == 0:
+            self.label_message_post.setText("Введите сообщение")
+        else:
+            helper.create_post(post=content, user=helper.get_current_user())
+            self.text_post.setPlainText("")
 
 
 if __name__ == '__main__':
