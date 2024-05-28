@@ -107,6 +107,8 @@ class MainApp(QWidget, mainUi.Ui_Form):
 
         self.btn_to_change_pass.clicked.connect(self.to_change_pass)
 
+        self.btn__from_pass_to_info.clicked.connect(self.to_info_from_pass)
+
         try:
             helper.get_current_user()
             self.stackedWidget.setCurrentIndex(2)
@@ -130,9 +132,14 @@ class MainApp(QWidget, mainUi.Ui_Form):
 
         old_pass = self.line__old_password.text()
         new_pass = self.line_new_password.text()
-        user = helper.get_current_user()
-        helper.change_password(new_pass, user)
-        print(helper.get_current_user().password)
+        userauth = UserAuth(username=helper.get_current_user().username, password=old_pass)
+        res = helper.authorize(userauth)
+        if res:
+            user = helper.get_current_user()
+            helper.change_password(new_pass, user)
+            print(helper.get_current_user().password)
+        else:
+            print("Произошла ошибка")
 
     def change_theme(self):
         if self.radio__no_theme.isChecked():
@@ -163,6 +170,9 @@ class MainApp(QWidget, mainUi.Ui_Form):
 
     def to_auth(self):
         self.stackedWidget.setCurrentIndex(0)
+        self.list_users.clear()
+        self.list_posts.clear()
+        self.text_post.setPlainText("")
 
     def to_registration(self):
         self.stackedWidget.setCurrentIndex(1)
@@ -248,7 +258,7 @@ class MainApp(QWidget, mainUi.Ui_Form):
             postItem = QListWidgetItem(self.list_posts)
             self.list_posts.addItem(postItem)
 
-            if post.id_of_user == helper.get_current_user().id:
+            if post.username == helper.get_current_user().username:
                 row = Item2Deletable(post, self.delete_post)
                 print(123)
             else:
