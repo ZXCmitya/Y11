@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>707</width>
-    <height>501</height>
+    <width>654</width>
+    <height>532</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -42,7 +42,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>3</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="login_page">
           <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -391,7 +391,7 @@
               <bool>false</bool>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="tab">
               <attribute name="title">
@@ -518,99 +518,6 @@
                      </item>
                     </layout>
                    </item>
-                   <item>
-                    <widget class="QPushButton" name="btn_to_post">
-                     <property name="text">
-                      <string>Написать пост</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                 <widget class="QWidget" name="page_2">
-                  <layout class="QVBoxLayout" name="verticalLayout_13">
-                   <item>
-                    <widget class="QLabel" name="label_6">
-                     <property name="text">
-                      <string>Придумайте, что хотите написать</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QScrollArea" name="scrollArea_2">
-                     <property name="widgetResizable">
-                      <bool>true</bool>
-                     </property>
-                     <widget class="QWidget" name="scrollAreaWidgetContents_2">
-                      <property name="geometry">
-                       <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>98</width>
-                        <height>88</height>
-                       </rect>
-                      </property>
-                      <layout class="QVBoxLayout" name="verticalLayout_12">
-                       <item>
-                        <widget class="QPlainTextEdit" name="text_post"/>
-                       </item>
-                      </layout>
-                     </widget>
-                    </widget>
-                   </item>
-                   <item>
-                    <spacer name="verticalSpacer_14">
-                     <property name="orientation">
-                      <enum>Qt::Vertical</enum>
-                     </property>
-                     <property name="sizeType">
-                      <enum>QSizePolicy::Minimum</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>20</width>
-                       <height>15</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="btn_send_post">
-                     <property name="text">
-                      <string>Отправить</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_message_post">
-                     <property name="text">
-                      <string/>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <spacer name="verticalSpacer_13">
-                     <property name="orientation">
-                      <enum>Qt::Vertical</enum>
-                     </property>
-                     <property name="sizeType">
-                      <enum>QSizePolicy::Maximum</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>20</width>
-                       <height>35</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="btn_to_info">
-                     <property name="text">
-                      <string>Информация</string>
-                     </property>
-                    </widget>
-                   </item>
                   </layout>
                  </widget>
                 </widget>
@@ -687,16 +594,80 @@
               <attribute name="title">
                <string>Посты</string>
               </attribute>
-              <layout class="QVBoxLayout" name="verticalLayout_8">
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
                <item>
-                <widget class="QPushButton" name="btn_fill_posts">
-                 <property name="text">
-                  <string>Заполнить список</string>
+                <widget class="QFrame" name="frame_5">
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
                  </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_8">
+                  <item alignment="Qt::AlignTop">
+                   <widget class="QLabel" name="label_15">
+                    <property name="text">
+                     <string>Придумайте, что хотите написать</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPlainTextEdit" name="text_post"/>
+                  </item>
+                  <item>
+                   <spacer name="verticalSpacer_21">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Fixed</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>10</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_message_post">
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="btn_send_post">
+                    <property name="text">
+                     <string>Отправить</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </widget>
                </item>
                <item>
-                <widget class="QListWidget" name="list_posts"/>
+                <widget class="QFrame" name="frame_4">
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_19">
+                  <item>
+                   <widget class="QPushButton" name="btn_fill_posts">
+                    <property name="text">
+                     <string>Заполнить список постов</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QListWidget" name="list_posts"/>
+                  </item>
+                 </layout>
+                </widget>
                </item>
               </layout>
              </widget>

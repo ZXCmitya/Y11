@@ -8,7 +8,7 @@ import logic
 from front import helper
 from front.schemas import User, UserAuth, UserPosts
 
-import mainUi, itemUi, itemUi_UserPost
+import mainUi, itemUi, itemUi_UserPost, itemUi_Post_deletable
 from PyQt5.QtWidgets import QWidget, QApplication, QListWidgetItem, QLineEdit
 
 
@@ -32,6 +32,24 @@ class Item(QWidget, itemUi.Ui_Form):
             print(":)")
         else:
             print(":(")
+
+
+class Item2Deletable(QWidget, itemUi_Post_deletable.Ui_Form):
+    def __init__(self, post: UserPosts, on_delete: Callable[[int], bool], parent=None, flags=...):
+        QWidget.__init__(self, parent)
+        self.setupUi(self)
+
+        self.on_delete = on_delete
+        self.post = post
+
+        self.label_post_username.setText(str(self.post.username))
+        self.label_post_content.setText(str(self.post.content))
+        self.label_post_time.setText(str(self.post.time_of_upload))
+
+        self.btn_delete_post.clicked.connect(self.handle_btn_delete)
+
+    def handle_btn_delete(self):
+        pass
 
 
 class Item2(QWidget, itemUi_UserPost.Ui_Form):
@@ -71,10 +89,6 @@ class MainApp(QWidget, mainUi.Ui_Form):
 
         self.btn_logout.clicked.connect(self.to_auth)
 
-        self.btn_to_info.clicked.connect(self.to_info)
-
-        self.btn_to_post.clicked.connect(self.to_post)
-
         self.btn_send_post.clicked.connect(self.create_post)
 
         self.btn_to_settings.clicked.connect(self.to_settings)
@@ -88,8 +102,6 @@ class MainApp(QWidget, mainUi.Ui_Form):
         self.btn_save_note.clicked.connect(self.save_note)
 
         self.text_note.setPlainText(logic.get_note())
-
-        self.btn__from_pass_to_info.clicked.connect(self.to_info_from_pass)
 
         self.btn_confirm_pass_change.clicked.connect(self.change_password)
 
@@ -148,9 +160,6 @@ class MainApp(QWidget, mainUi.Ui_Form):
 
     def to_info(self):
         self.stackedWidget_2.setCurrentIndex(0)
-
-    def to_post(self):
-        self.stackedWidget_2.setCurrentIndex(1)
 
     def to_auth(self):
         self.stackedWidget.setCurrentIndex(0)
@@ -239,10 +248,30 @@ class MainApp(QWidget, mainUi.Ui_Form):
             postItem = QListWidgetItem(self.list_posts)
             self.list_posts.addItem(postItem)
 
-            row = Item2(post)
+            if post.id_of_user == helper.get_current_user().id:
+                row = Item2Deletable(post, self.delete_post)
+                print(123)
+            else:
+                row = Item2(post)
             postItem.setSizeHint(row.minimumSizeHint())
 
             self.list_posts.setItemWidget(postItem, row)
+
+    def delete_post(self, id: int):
+        pass
+
+    # def delete_post(self, id: int) -> bool:
+    #     res = helper.
+    #     if res:
+    #         # self.fill_users()
+    #         for i in range(self.list_users.count()):
+    #             userItem = self.list_users.item(i)
+    #             itemWidget = self.list_users.itemWidget(userItem)
+    #
+    #             if itemWidget.user.id == id:
+    #                 self.list_users.takeItem(i)
+    #                 return True
+    #     return False
 
     def delete_user(self, id: int) -> bool:
         res = helper.remove_user(id)
@@ -256,6 +285,8 @@ class MainApp(QWidget, mainUi.Ui_Form):
                     self.list_users.takeItem(i)
                     return True
         return False
+
+
 
     def create_post(self):
         content = self.text_post.toPlainText()
