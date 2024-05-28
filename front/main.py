@@ -10,6 +10,7 @@ from front.schemas import User, UserAuth, UserPosts
 
 import mainUi, itemUi, itemUi_UserPost, itemUi_Post_deletable
 from PyQt5.QtWidgets import QWidget, QApplication, QListWidgetItem, QLineEdit
+from PyQt5.QtGui import QIcon
 
 
 class Item(QWidget, itemUi.Ui_Form):
@@ -319,6 +320,8 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     # app.setStyleSheet(logic.get_current_style_css(logic.get_style_name()))
     w = MainApp()
+    w.setWindowTitle("Y11")
+    w.setWindowIcon(QIcon('icon.png'))
     # pyuic5 -x mainApp.ui -o mainUi.py
     w.show()
     app.exec()
