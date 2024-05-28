@@ -158,6 +158,14 @@ def add_post(post: str, user: User) -> bool:
     return True
 
 
+def delete_post(id: int) -> bool:
+    connect = sqlite3.connect("data.db")
+    connect.execute("""DELETE FROM "Posts" WHERE id = ?;""", [id])
+    connect.commit()
+    connect.close()
+    return True
+
+
 def get_all_posts() -> list:
     connect = sqlite3.connect("data.db")
 

@@ -180,6 +180,15 @@ def delete_user(id: int, current_user: User = Depends(get_current_user)):
         status_code=status.HTTP_400_BAD_REQUEST, content="Произошла ошибка")
 
 
+@app.delete("/delete_post/{id}")
+def delete_post(id: int, current_user: User = Depends(get_current_user)):
+    if db.delete_post(id):
+        return JSONResponse(status_code=status.HTTP_200_OK,
+                            content="Пост удалён успешно")
+    return JSONResponse(
+        status_code=status.HTTP_400_BAD_REQUEST, content="Произошла ошибка")
+
+
 # Общий вид запроса
 # https://google.com/{path}/{path}?{query}={value}&{query}={value}
 
